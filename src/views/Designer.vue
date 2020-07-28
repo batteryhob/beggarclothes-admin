@@ -111,16 +111,19 @@
 </template>
 
 <script>
+  import axios from 'axios'
+
   export default {
     name: 'Designer',
 
     computed: {
       form () {
         return {
-          Name: this.Name,
-          Korean: this.Korean,
-          Tags: this.Tags,
-          Description: this.Description
+          fileAttach: this.$data.Logo,
+          name: this.$data.Name,
+          korean: this.$data.Korean,
+          tagstring: this.$data.Tags,
+          desc: this.$data.Description
         }
       },
     },
@@ -129,17 +132,17 @@
       //파일업로드
       onFileChange(file) {
         if(typeof file === 'undefined'){
-          this.Logo = null;
+          this.$data.Logo = null;
           this.preview = null;
         }else{
-           this.Logo = file
+           this.$data.Logo = file
            this.preview = URL.createObjectURL(file);           
         }       
       },
 
       //벨리데이션
       resetForm () {
-        this.Logo = null;
+        this.$data.Logo = null;
         this.preview = null;
 
         this.formHasErrors = false
@@ -171,12 +174,20 @@
 
       //피드등록
       uploadDesigner () {
+
         // 폼 데이터 객체 생성
-        let formData = new FormData();
+        let params = new FormData();
+
         Object.keys(this.form).forEach(f => {
-          formData.append(f, this.form[f]);
+          params.append(f, this.form[f]);
         })
-        //axios 업로드
+
+        axios.post('/api/designer', params).then((res)=>{
+          console.log(res)
+        }).catch((ex)=>{
+          console.log(ex)
+        })
+
       }
 
     },

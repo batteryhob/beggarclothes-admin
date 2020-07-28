@@ -6,6 +6,8 @@ import router from './router'
 
 Vue.use(VueLazyload)
 Vue.config.productionTip = false
+Vue.config.strict = true
+
 
 new Vue({
   vuetify,
