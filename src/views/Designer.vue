@@ -172,7 +172,7 @@
 
       },
 
-      //피드등록
+      //디자이너등록
       uploadDesigner () {
 
         // 폼 데이터 객체 생성
@@ -183,7 +183,11 @@
         })
 
         axios.post('/api/designer', params).then((res)=>{
-          console.log(res)
+          if(res.data.result){
+            Object.keys(this.form).forEach(f => {
+              this.$refs[f].reset()
+            })
+          }
         }).catch((ex)=>{
           console.log(ex)
         })

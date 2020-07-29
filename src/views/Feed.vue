@@ -47,10 +47,10 @@
                   </v-col>
                   <v-col cols="6">
                     <v-text-field
-                      ref="Product"
-                      v-model="Product"
-                      :rules="[() => !!Product || 'This field is required']"
-                      label="Product"
+                      ref="Name"
+                      v-model="Name"
+                      :rules="[() => !!Name || 'This field is required']"
+                      label="Name"
                       placeholder="상품명"
                       required
                     ></v-text-field>
@@ -183,6 +183,7 @@
 
 <script>
   import VueUploadMultipleImage from 'vue-upload-multiple-image'
+  import axios from 'axios'
 
   export default {
     name: 'Feed',
@@ -194,16 +195,26 @@
     computed: {
       form () {
         return {
-          Designer: this.Designer,          
-          Product: this.Product,
-          BeforePrice: this.BeforePrice,
-          AfterPrice: this.AfterPrice,
-          Link: this.Link,
-          Description: this.Description,
-          DesignerPoint: this.DesignerPoint,
-          PricePoint: this.PricePoint,
-          DailyPoint: this.DailyPoint,
-          EssentialPoint: this.EssentialPoint
+
+          newflag: this.$data.New,
+          hot: this.$data.Hot,
+          recommend: this.$data.Recommend,
+          designer_seq: this.$data.Designer,
+        
+          name: this.$data.Name,
+          before: this.$data.BeforePrice,
+          after: this.$data.AfterPrice,
+
+          link: this.$data.Link,
+          desc: this.$data.Description,
+
+          designer_point: this.$data.DesignerPoint,
+          price_point: this.$data.PricePoint,
+          daily_point: this.$data.DailyPoint,
+          essential_point: this.$data.EssentialPoint
+
+          //files: this.$data.UploadFileList
+
         }
       },
     },
@@ -214,7 +225,6 @@
         this.$data.UploadFileList = fileList;
       },
       beforeRemove (index, done, fileList) {
-        console.log('index', index, fileList)
         let r = confirm("상품 이미지를 삭제하시겠습니까?")
         if (r === true) {
           this.$data.UploadFileList = fileList;
@@ -233,18 +243,21 @@
         })
       },      
       submit () {
-        if(this.$data.UploadFileList.length === 0)
+        if(this.$data.UploadFileList.length < 2)
         {
-          alert("상품 이미지를 등록해주세요.")
+          alert("상품 이미지를 2개 이상 등록해주세요.")
           return
         }
 
         this.formHasErrors = false
         Object.keys(this.form).forEach(f => {
+
+          console.log(this.form[f])
           if (!this.form[f]) {
             this.formHasErrors = true
             this.$refs[f].validate(true)
           }
+
         })
 
         if(!this.formHasErrors){
@@ -255,12 +268,36 @@
 
       //피드등록
       uploadFeed () {
+        function DataURIToBlob(dataURI) {
+          const splitDataURI = dataURI.split(',')
+          const byteString = splitDataURI[0].indexOf('base64') >= 0 ? atob(splitDataURI[1]) : decodeURI(splitDataURI[1])
+          const mimeString = splitDataURI[0].split(':')[1].split(';')[0]
+
+          const ia = new Uint8Array(byteString.length)
+          for (let i = 0; i < byteString.length; i++)
+              ia[i] = byteString.charCodeAt(i)
+
+          return new Blob([ia], { type: mimeString })
+        }
+
         // 폼 데이터 객체 생성
-        let formData = new FormData();
+        let params = new FormData();
+        
+        for(var obj of this.$data.UploadFileList){          
+          let file = DataURIToBlob(obj.path)
+          console.log(file)
+          params.append('files', file, obj.name)
+        }
+
         Object.keys(this.form).forEach(f => {
-          formData.append(f, this.form[f]);
+          params.append(f, this.form[f]);
         })
-        //axios 업로드
+
+        axios.post('/api/feed', params).then((res)=>{
+          console.log(res)
+        }).catch((ex)=>{
+          console.log(ex)
+        })
       }
 
     },
@@ -270,8 +307,8 @@
       Hot: false,
       Recommend: false,
       Designer: null,
-      Designers: [ 'Acne Studio' ],
-      Product: null,
+      Designers: [ 1, 2, 3, 4, 5 ],
+      Name: null,
       BeforePrice: 0,
       AfterPrice: 0,
       Link: null,
