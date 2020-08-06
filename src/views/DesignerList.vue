@@ -18,7 +18,7 @@
             <v-card-subtitle class="pb-0">{{ designer.korean }}</v-card-subtitle>
         
             <v-card-text class="text--primary">
-              <div>{{ designer.desc.substring(0,80) }}</div>
+              <div>{{ designer.desc ? designer.desc.substring(0,80) : '' }}</div>
             </v-card-text>
         
             <v-card-actions>
