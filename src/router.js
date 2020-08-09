@@ -5,6 +5,7 @@ import FeedList from './views/FeedList.vue'
 import Feed from './views/Feed.vue'
 import DesignerList from './views/DesignerList.vue'
 import Designer from './views/Designer.vue'
+import DesignerMod from './views/DesignerMod.vue'
 
 Vue.use(VueRouter)
 
@@ -30,6 +31,11 @@ export default new VueRouter({
             path: '/designer/add',
             name: 'Designer',
             component: Designer
+        },
+        {
+            path: '/designer/:seq',
+            name: 'DesignerMod',
+            component: DesignerMod
         }
     ]
 })
