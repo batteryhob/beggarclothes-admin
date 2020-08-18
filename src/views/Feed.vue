@@ -219,7 +219,29 @@
       },
     },
 
+    mounted(){
+      this.getDesignerList();
+    },
+
     methods: {
+      //디자이너리스트가져오기
+      getDesignerList() {
+        axios.get(`/api/designer`).then((res)=>{
+          if(res.data.result){
+            
+            if(res.data.list.length > 0){
+              let designers = []
+              res.data.list.forEach((e)=>{
+                designers.push(e.name)
+              })
+              this.$data.Designers = designers
+            }
+          }
+        }).catch((ex)=>{
+          console.log(ex)
+        })
+      },
+
       //이미지업로드
       uploadImageSuccess(formData, index, fileList) {
         this.$data.UploadFileList = fileList;
@@ -307,7 +329,7 @@
       Hot: false,
       Recommend: false,
       Designer: null,
-      Designers: [ 1, 2, 3, 4, 5 ],
+      Designers: [],
       Name: null,
       BeforePrice: 0,
       AfterPrice: 0,

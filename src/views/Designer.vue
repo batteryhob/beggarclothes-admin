@@ -71,6 +71,14 @@
                       placeholder="디자이너 설명을 작성해주세요."
                       required
                     ></v-textarea>
+                    <v-text-field
+                      ref="Homepage"
+                      v-model="Homepage"
+                      :rules="[() => !!Homepage || 'This field is required']"
+                      label="Homepage"
+                      placeholder="https://beggarclothes.io"
+                      required
+                    ></v-text-field>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -78,7 +86,7 @@
               <v-divider class="mt-12"></v-divider>
 
               <v-card-actions>
-                <v-btn text>Cancel</v-btn>
+                <v-btn text @click="cancle">Cancel</v-btn>
                 <v-spacer></v-spacer>
                 <v-slide-x-reverse-transition>
                   <v-tooltip
@@ -123,7 +131,8 @@
           name: this.$data.Name,
           korean: this.$data.Korean,
           tagstring: this.$data.Tags,
-          desc: this.$data.Description
+          desc: this.$data.Description,
+          homepage: this.$data.Homepage
         }
       },
     },
@@ -142,27 +151,25 @@
 
       //벨리데이션
       resetForm () {
-        this.$data.Logo = null;
-        this.preview = null;
 
-        this.formHasErrors = false
-        Object.keys(this.form).forEach(f => {
-          this.$refs[f].reset()
-        })
+        this.$data.Name = null;
+        this.$data.Korean = null;
+        this.$data.Tags = null;
+        this.$data.Description = null;
+        this.$data.Logo = null;
+        this.$data.Homepage = null;
+
+        this.$data.preview = null;
+        this.$data.formHasErrors = false;
+
       },      
       submit () {
-
-        if(this.Logo === null)
-        {
-          alert("로고 이미지를 등록해주세요.")
-          return
-        }
 
         this.formHasErrors = false
         Object.keys(this.form).forEach(f => {
           if (!this.form[f]) {
             this.formHasErrors = true
-            this.$refs[f].validate(true)
+            alert("항목을 확인해주세요.")
           }
         })
 
@@ -170,6 +177,10 @@
           this.uploadDesigner()
         }
 
+      },
+
+      cancle () {
+        this.$router.push({ path: `/designer` })
       },
 
       //디자이너등록
@@ -196,15 +207,17 @@
 
     },
 
-    data: () => ({
+    data: () => ({    
+
       Name: null,
       Korean: null,
       Tags: null,
       Description: null,
       Logo: null,
+      Homepage: null,
 
       preview: null,
-      formHasErrors: false,
+      formHasErrors: false
 
     }),
 

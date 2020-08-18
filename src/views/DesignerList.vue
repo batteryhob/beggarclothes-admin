@@ -25,15 +25,9 @@
               <v-btn
                 color="orange"
                 text
+                @click="goMod(designer.seq)"
               >
                 수정
-              </v-btn>
-        
-              <v-btn
-                color="orange"
-                text
-              >
-                삭제
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -69,11 +63,16 @@
           console.log(ex)
 
         })
+      },
+
+      goMod(seq){
+        this.$router.push({ path: `/designer/${seq}` })
       }
+
     },
 
     data: () => ({
-      designerList: [1,2,3,4,5,6]
+      designerList: []
     }),
   }
 </script>
