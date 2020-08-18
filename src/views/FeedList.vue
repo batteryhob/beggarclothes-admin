@@ -10,7 +10,7 @@
             <v-img
               class="white--text align-end"
               height="200px"
-              :src="feed.logo"
+              :src="feed.mainimg"
             >
               <v-card-title>{{ feed.name }}</v-card-title>
             </v-img>
@@ -79,7 +79,22 @@
       },
 
       deleteFeed(seq){
-        console.log(seq)
+        let result = confirm("정말로 삭제하시겠습니까?")
+
+        if(result){
+          axios.delete(`api/feed/${seq}`).then((res)=>{
+
+            if(res.data.result){
+              this.getFeedList();
+            }
+
+          }).catch((ex)=>{
+
+            console.log(ex)
+
+          })
+        }
+        
       }
     },
 

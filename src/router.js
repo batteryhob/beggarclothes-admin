@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import FeedList from './views/FeedList.vue'
 import Feed from './views/Feed.vue'
+import FeedMod from './views/FeedMod.vue'
 import DesignerList from './views/DesignerList.vue'
 import Designer from './views/Designer.vue'
 import DesignerMod from './views/DesignerMod.vue'
@@ -21,6 +22,11 @@ export default new VueRouter({
             path: '/feed/add',
             name: 'Feed',
             component: Feed
+        },
+        {
+            path: '/feed/:seq',
+            name: 'FeedMod',
+            component: FeedMod
         },
         {
             path: '/designer',

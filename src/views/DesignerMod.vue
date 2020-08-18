@@ -122,7 +122,7 @@
   import axios from 'axios'
 
   export default {
-    name: 'Designer',
+    name: 'DesignerMod',
 
     computed: {
       form () {
