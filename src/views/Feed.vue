@@ -40,6 +40,7 @@
                       v-model="Designer"
                       :rules="[() => !!Designer || 'This field is required' ]"
                       :items="Designers"
+                      item-text="name"
                       label="Designer"
                       placeholder="디자이너를 선택하세요."
                       required
@@ -55,17 +56,25 @@
                       required
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="6">
+                  <v-col cols="2">
+                    <v-select
+                      :items="currencys"
+                      :label="Currency"
+                      outlined
+                      v-model="Currency"
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="5">
                     <v-text-field
                       ref="BeforePrice"
                       v-model="BeforePrice"
                       :rules="[() => !!BeforePrice || 'This field is required']"
                       label="Before Price"
                       placeholder="1,000"
-                      required
+                      required                      
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="6">
+                  <v-col cols="5">
                     <v-text-field
                       ref="AfterPrice"
                       v-model="AfterPrice"
@@ -199,9 +208,12 @@
           newflag: this.$data.New,
           hot: this.$data.Hot,
           recommend: this.$data.Recommend,
-          designer_seq: this.$data.Designer,
+          designer_seq: this.$data.Designers.find(o => o.name === this.$data.Designer).seq,
         
           name: this.$data.Name,
+
+          currency: this.$data.Currency,
+
           before: this.$data.BeforePrice,
           after: this.$data.AfterPrice,
 
@@ -212,8 +224,6 @@
           price_point: this.$data.PricePoint,
           daily_point: this.$data.DailyPoint,
           essential_point: this.$data.EssentialPoint
-
-          //files: this.$data.UploadFileList
 
         }
       },
@@ -227,14 +237,9 @@
       //디자이너리스트가져오기
       getDesignerList() {
         axios.get(`/api/designer`).then((res)=>{
-          if(res.data.result){
-            
+          if(res.data.result){            
             if(res.data.list.length > 0){
-              let designers = []
-              res.data.list.forEach((e)=>{
-                designers.push(e.name)
-              })
-              this.$data.Designers = designers
+              this.$data.Designers = res.data.list
             }
           }
         }).catch((ex)=>{
@@ -265,6 +270,7 @@
         })
       },      
       submit () {
+
         if(this.$data.UploadFileList.length < 2)
         {
           alert("상품 이미지를 2개 이상 등록해주세요.")
@@ -272,15 +278,25 @@
         }
 
         this.formHasErrors = false
-        Object.keys(this.form).forEach(f => {
+        var BreakException = {};
 
-          console.log(this.form[f])
-          if (!this.form[f]) {
-            this.formHasErrors = true
-            this.$refs[f].validate(true)
-          }
+        try{
+          Object.keys(this.form).forEach(f => {
 
-        })
+            if(f==='newflag'|| f==='hot'|| f ==='recommend') {
+              //pass
+            }else{
+              if (!this.form[f]) {
+                this.formHasErrors = true
+                alert("항목을 확인해주세요.")
+                throw BreakException;
+              }
+            }
+
+          })
+        }catch(e){
+          if (e !== BreakException) throw e;
+        }
 
         if(!this.formHasErrors){
           this.uploadFeed()
@@ -331,6 +347,7 @@
       Designer: null,
       Designers: [],
       Name: null,
+      Currency: '$',
       BeforePrice: 0,
       AfterPrice: 0,
       Link: null,
@@ -342,6 +359,8 @@
 
       UploadFileList: [],
       images: [],
+
+      currencys: ['$', '€', '£', '₩'],
      
       formHasErrors: false,
     }),

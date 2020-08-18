@@ -9,6 +9,7 @@ Vue.config.productionTip = false
 Vue.config.strict = true
 
 
+
 new Vue({
   vuetify,
   router,

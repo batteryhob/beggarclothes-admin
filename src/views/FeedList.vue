@@ -18,13 +18,14 @@
             <v-card-subtitle class="pb-0">{{ feed.korean }}</v-card-subtitle>
         
             <v-card-text class="text--primary">
-              <div>{{ feed.desc.substring(0,80) }}</div>
+              <div>{{ feed.desc ? feed.desc.substring(0,80) : '' }}</div>
             </v-card-text>
         
             <v-card-actions>
               <v-btn
                 color="orange"
                 text
+                @click="goMod(feed.seq)"
               >
                 수정
               </v-btn>
@@ -32,6 +33,7 @@
               <v-btn
                 color="orange"
                 text
+                @click="deleteFeed(feed.seq)"
               >
                 삭제
               </v-btn>
@@ -49,14 +51,15 @@
   import axios from 'axios';
 
   export default {
-    name: 'Feedist',
+    name: 'FeedList',
 
     mounted(){
-      this.getDesignerList();
+      this.getFeedList();
     },
 
     methods: {
-      getDesignerList(){
+      getFeedList(){
+        console.log('피드 가져오기')
         axios.get('/api/feed').then((res)=>{
 
           if(res.data.result){
@@ -69,11 +72,19 @@
           console.log(ex)
 
         })
+      },
+
+      goMod(seq){
+        this.$router.push({ path: `/feed/${seq}` })
+      },
+
+      deleteFeed(seq){
+        console.log(seq)
       }
     },
 
     data: () => ({
-      feedList: [1,2,3,4,5,6]
+      feedList: []
     }),
   }
 </script>

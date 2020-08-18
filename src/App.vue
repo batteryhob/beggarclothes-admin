@@ -66,7 +66,7 @@
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon> -->
   
-            <v-list-item-content>
+            <v-list-item-content @click="goMenu(item.title)">
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -94,6 +94,13 @@ export default {
   name: 'App',
 
   components: {},
+
+  methods: {
+    goMenu(title){
+      console.log(title)
+      this.$router.push({ path: `/${title}` })
+    }
+  },
 
   data: () => ({
     drawer: false,
