@@ -274,7 +274,7 @@
 
             this.$data.images = imgs;
 
-            this.$data.New = data.new;
+            this.$data.New = data.newflag;
             this.$data.Hot = data.hot;
             this.$data.Recommend = data.recommend;
 
