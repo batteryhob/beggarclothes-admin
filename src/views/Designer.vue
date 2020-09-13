@@ -180,7 +180,7 @@
       },
 
       cancle () {
-        this.$router.push({ path: `/designer` })
+        this.$router.push({ path: `/admin/designer` })
       },
 
       //디자이너등록

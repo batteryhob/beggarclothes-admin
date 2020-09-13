@@ -75,7 +75,7 @@
       },
 
       goMod(seq){
-        this.$router.push({ path: `/feed/${seq}` })
+        this.$router.push({ path: `/admin/feed/${seq}` })
       },
 
       deleteFeed(seq){

@@ -98,7 +98,7 @@ export default {
   methods: {
     goMenu(title){
       console.log(title)
-      this.$router.push({ path: `/${title}` })
+      this.$router.push({ path: `/admin/${title}` })
     }
   },
 

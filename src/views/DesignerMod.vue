@@ -178,7 +178,7 @@
       },
 
       cancle () {
-        this.$router.push({ path: `/designer` })
+        this.$router.push({ path: `/admin/designer` })
       },
 
       getDesigner(seq) {

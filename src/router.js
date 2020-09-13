@@ -14,32 +14,32 @@ export default new VueRouter({
     mode: 'history',
     routes: [
         {
-            path: '/feed',
+            path: '/admin/feed',
             name: 'FeedList',
             component: FeedList
         },
         {
-            path: '/feed/add',
+            path: '/admin/feed/add',
             name: 'Feed',
             component: Feed
         },
         {
-            path: '/feed/:seq',
+            path: '/admin/feed/:seq',
             name: 'FeedMod',
             component: FeedMod
         },
         {
-            path: '/designer',
+            path: '/admin/designer',
             name: 'DesignerList',
             component: DesignerList
         },
         {
-            path: '/designer/add',
+            path: '/admin/designer/add',
             name: 'Designer',
             component: Designer
         },
         {
-            path: '/designer/:seq',
+            path: '/admin/designer/:seq',
             name: 'DesignerMod',
             component: DesignerMod
         }

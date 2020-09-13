@@ -306,7 +306,7 @@
       },
 
       cancle () {
-        this.$router.push({ path: `/feed` })
+        this.$router.push({ path: `/admin/feed` })
       },
 
       //벨리데이션

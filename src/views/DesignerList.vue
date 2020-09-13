@@ -66,7 +66,7 @@
       },
 
       goMod(seq){
-        this.$router.push({ path: `/designer/${seq}` })
+        this.$router.push({ path: `/admin/designer/${seq}` })
       }
 
     },
